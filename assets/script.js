@@ -12,8 +12,9 @@ var ans2 = document.createElement("button");
 var ans3 = document.createElement("button");
 var ans4 = document.createElement("button");
 
-var timeLeft = 60;
+var timeLeft = 120;
 var score = 0;
+var page = 0;
 
 ans1.classList.add("btn");
 ans2.classList.add("btn");
@@ -55,7 +56,10 @@ function mainPage(){
 }
 
 function nextPage() {
+
     startTime();
+    page = 1;
+
     quizTitle.textContent = "";
     someText.textContent = "What type of data stores a value of true of false?";
     ans1.textContent = "String";
@@ -69,21 +73,124 @@ function nextPage() {
     options.appendChild(ans2);
     options.appendChild(ans3);
 
-    ans1.addEventListener("click", increaseScore);
+    ans1.addEventListener("click", decreaseTime);
     ans2.addEventListener("click", decreaseTime);
-    ans3.addEventListener("click", decreaseTime);
+    ans3.addEventListener("click", increaseScore);
+
 
     console.log(score);
+    console.log(page);
 
 }
 
 function increaseScore() {
     score += 20;
     console.log(score);
+
+    if (page == 1) {
+        thirdPage();
+    } else if (page == 2){ 
+        fourthPage();
+    } else if (page == 3) {
+        fifthPage();
+    }
+
+    return;
 }
 
 function decreaseTime() {
+    if (timeLeft > 0) {
     timeLeft = timeLeft - 10;
+    }
+
+    if (page == 1) {
+        thirdPage();
+    } else if (page == 2) {
+        fourthPage();
+    } else if (page == 3) {
+        fifthPage();
+    }
+
+    return;
 }
+
+function thirdPage() {
+
+    page = 2;
+
+    someText.textContent = "What is used to store information to be referenced and used by programs?";
+    ans1.textContent = "Information tool thing";
+    ans2.textContent = "Variables (var)";
+    ans3.textContent = "Dragons";
+    ans4.textContent = "Boolean";
+
+    pageContent.appendChild(someText);
+    options.appendChild(ans1);
+    options.appendChild(ans2);
+    options.appendChild(ans3);
+    options.appendChild(ans4);
+
+    ans1.removeEventListener("click", decreaseTime);
+    ans2.removeEventListener("click", decreaseTime);
+    ans3.removeEventListener("click", increaseScore);
+
+    ans1.addEventListener("click", decreaseTime);
+    ans2.addEventListener("click", increaseScore);
+    ans3.addEventListener("click", decreaseTime);
+    ans4.addEventListener("click", decreaseTime);
+
+    console.log(score);
+    console.log(page);
+}
+
+function fourthPage() {
+
+    page = 3;
+
+    someText.textContent = "Which one is a programming language?";
+    ans1.textContent = "Python";
+    ans2.textContent = "Chicken";
+    ans3.textContent = "Turtle";
+    ans4.textContent = "Cheetah";
+
+    ans1.removeEventListener("click", decreaseTime);
+    ans2.removeEventListener("click", increaseScore);
+    ans3.removeEventListener("click", decreaseTime);
+    ans4.removeEventListener("click", decreaseTime);
+
+    ans1.addEventListener("click", increaseScore);
+    ans2.addEventListener("click", decreaseTime);
+    ans3.addEventListener("click", decreaseTime);
+    ans4.addEventListener("click", decreaseTime);
+
+    console.log(score);
+    console.log(page);
+}
+
+function fifthPage() {
+
+    page = 4;
+
+    someText.textContent = "Which one is a HTML tag?";
+    ans1.textContent = "<bloop>";
+    ans2.textContent = "<bleep>";
+    ans3.textContent = "<section>";
+    ans4.textContent = "<boing>";
+
+    ans1.removeEventListener("click", increaseScore);
+    ans2.removeEventListener("click", decreaseTime);
+    ans3.removeEventListener("click", decreaseTime);
+    ans4.removeEventListener("click", decreaseTime);
+
+    ans1.addEventListener("click", decreaseTime);
+    ans2.addEventListener("click", decreaseTime);
+    ans3.addEventListener("click", increaseScore);
+    ans4.addEventListener("click", decreaseTime);
+
+    console.log(score);
+    console.log(page);
+}
+
+
 
 mainPage();
