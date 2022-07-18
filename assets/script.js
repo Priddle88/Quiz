@@ -22,15 +22,24 @@ function startTime() {
 }
 
 function mainPage(){
-    startTime();
     var quizTitle = document.createElement("h1");
     var someText = document.createElement("p");
+    var startButton = document.createElement("button");
+
+    startButton.setAttribute("onclick", "nextPage()");
 
     quizTitle.textContent = "Coding Quiz";
     someText.textContent = "Get ready for the most intense quiz ever";
+    startButton.textContent = "Start Quiz";
 
     pageContent.appendChild(quizTitle);
     quizTitle.appendChild(someText);
+    pageContent.appendChild(startButton);
+
+}
+
+function nextPage() {
+    startTime();
 }
 
 mainPage();
