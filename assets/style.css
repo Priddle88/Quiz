@@ -16,6 +16,15 @@ p {
     all: unset;
     color: blueviolet;
     text-decoration: underline;
+    cursor: grab;
+}
+
+.scoresBtn:hover {
+    font-size: larger;
+}
+
+.scoresBtn:active {
+    cursor: grabbing;
 }
 
 button {

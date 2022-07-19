@@ -19,6 +19,8 @@ var submitMess = document.createElement("h5");
 var timeLeft = 120;
 var score = 0;
 var page = 0;
+var users = [];
+var resets = 0;
 
 ans1.classList.add("btn");
 ans2.classList.add("btn");
@@ -28,6 +30,7 @@ ans4.classList.add("btn");
 
 heading.setAttribute("style", "display: flex; justify-content: space-between;");
 pageContent.setAttribute("style", "text-align: center;")
+scoresBtn.addEventListener('click', highscores);
 
 function startTime() {
 
@@ -46,6 +49,7 @@ function startTime() {
 
 function mainPage(){
 
+    startButton.removeEventListener('click', reset);
     startButton.setAttribute("onclick", "nextPage()");
 
     quizTitle.textContent = "Coding Quiz";
@@ -56,7 +60,9 @@ function mainPage(){
     pageContent.appendChild(quizTitle);
     quizTitle.appendChild(someText);
     pageContent.appendChild(startButton);
-    userId.remove();
+    if (resets == 0) {
+        userId.remove();
+    }
     subScore.remove();
 
 }
@@ -259,6 +265,7 @@ function allDone() {
             options.appendChild(submitMess);
         }
         
+        store(userId);
         localStorage.setItem("User", userId);
       
         highscores();
@@ -268,6 +275,11 @@ function allDone() {
 
 }
 
+function store(itemId) {
+    users.push(itemId);
+    localStorage.setItem("User1", JSON.stringify(users));
+}
+
 
 function highscores() {
     quizTitle.textContent = "Highscores";
@@ -275,10 +287,26 @@ function highscores() {
 
     pageContent.appendChild(quizTitle);
     pageContent.appendChild(result);
+    pageContent.appendChild(startButton);
+
+    startButton.textContent = "Play Again?";
+
+    startButton.removeAttribute("onclick", "nextPage()");
+    startButton.addEventListener('click', reset);
 
     someText.remove();
     options.remove();
+    // console.log(localStorage.getItem("User"));
 
+}
+
+function reset() {
+    score = 0;
+    page = 0;
+    resets += 1;
+    timeLeft = 120;
+    result.remove();
+    mainPage();
 }
 
 
