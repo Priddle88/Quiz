@@ -4,6 +4,7 @@ var pageContent = document.querySelector(".content");
 var options = document.querySelector(".options");
 var subScore = document.querySelector("#subScore");
 var userId = document.querySelector("#user");
+var scoresBtn = document.querySelector(".scoresBtn");
 
 var quizTitle = document.createElement("h1");
 var someText = document.createElement("p");
@@ -256,12 +257,11 @@ function allDone() {
         } else {
             submitMess.textContent = "Registered successfully";
             options.appendChild(submitMess);
-            highscores();
         }
-      
+        
         localStorage.setItem("User", userId);
       
-        
+        highscores();
       
       });
     
