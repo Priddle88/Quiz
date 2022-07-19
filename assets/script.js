@@ -2,7 +2,8 @@ var time = document.querySelector(".time");
 var heading = document.querySelector("header");
 var pageContent = document.querySelector(".content");
 var options = document.querySelector(".options");
-
+var subScore = document.querySelector("#subScore");
+var userId = document.querySelector("#user");
 
 var quizTitle = document.createElement("h1");
 var someText = document.createElement("p");
@@ -11,6 +12,8 @@ var ans1 = document.createElement("button");
 var ans2 = document.createElement("button");
 var ans3 = document.createElement("button");
 var ans4 = document.createElement("button");
+var result = document.createElement("p");
+var submitMess = document.createElement("h5");
 
 var timeLeft = 120;
 var score = 0;
@@ -52,6 +55,8 @@ function mainPage(){
     pageContent.appendChild(quizTitle);
     quizTitle.appendChild(someText);
     pageContent.appendChild(startButton);
+    userId.remove();
+    subScore.remove();
 
 }
 
@@ -93,6 +98,10 @@ function increaseScore() {
         fourthPage();
     } else if (page == 3) {
         fifthPage();
+    } else if (page == 4) {
+        sixthPage();
+    } else if (page == 5) {
+        allDone();
     }
 
     return;
@@ -109,6 +118,10 @@ function decreaseTime() {
         fourthPage();
     } else if (page == 3) {
         fifthPage();
+    } else if (page == 4) {
+        sixthPage();
+    } else if (page == 5) {
+        allDone();
     }
 
     return;
@@ -191,6 +204,82 @@ function fifthPage() {
     console.log(page);
 }
 
+function sixthPage() {
+
+    page = 5;
+
+    someText.textContent = "Did you like this test?";
+    ans1.textContent = "no";
+    ans2.textContent = "no";
+    ans3.textContent = "no";
+    ans4.textContent = "yes";
+
+    ans1.removeEventListener("click", decreaseTime);
+    ans2.removeEventListener("click", decreaseTime);
+    ans3.removeEventListener("click", increaseScore);
+    ans4.removeEventListener("click", decreaseTime);
+
+    ans1.addEventListener("click", decreaseTime);
+    ans2.addEventListener("click", decreaseTime);
+    ans3.addEventListener("click", decreaseTime);
+    ans4.addEventListener("click", increaseScore);
+
+    console.log(score);
+    console.log(page);
+}
+
+function allDone() {
+    
+    page = 6;
+
+    someText.textContent = "All Done!";
+
+    result.textContent = `You scored ${score}/100`;
+    options.appendChild(result);
+    options.appendChild(userId);
+    options.appendChild(subScore);
+
+    ans1.remove();
+    ans2.remove();
+    ans3.remove();
+    ans4.remove();
+
+    subScore.addEventListener("click", function(event) {
+        event.preventDefault();
+    
+    
+        userId = document.querySelector("#user").value;
+    
+        if (userId === "") {
+            submitMess.textContent = "User cannot be blank";
+            options.appendChild(submitMess);
+        } else {
+            submitMess.textContent = "Registered successfully";
+            options.appendChild(submitMess);
+            highscores();
+        }
+      
+        localStorage.setItem("User", userId);
+      
+        
+      
+      });
+    
+
+}
+
+
+function highscores() {
+    quizTitle.textContent = "Highscores";
+    result.textContent = score + "/100 - " + localStorage.getItem("User");
+
+    pageContent.appendChild(quizTitle);
+    pageContent.appendChild(result);
+
+    someText.remove();
+    options.remove();
+
+}
 
 
 mainPage();
