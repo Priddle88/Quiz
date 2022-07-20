@@ -381,7 +381,7 @@ function highscores() {
     pageContent.appendChild(startButton);
     // scoreList();
 
-    quizTitle.appendChild(orderList);
+    // quizTitle.appendChild(orderList);
 
     // for (i = 0; i < finalUser.length; i++) {
     //     listItem.textContent = score + " - " + finalUser[i];
