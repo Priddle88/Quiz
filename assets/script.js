@@ -101,6 +101,11 @@ function nextPage() {
         
     }
 
+    ans1.removeEventListener("click", decreaseTime);
+    ans2.removeEventListener("click", decreaseTime);
+    ans3.removeEventListener("click", decreaseTime);
+    ans4.removeEventListener("click", increaseScore);
+
     ans1.addEventListener("click", decreaseTime);
     ans2.addEventListener("click", decreaseTime);
     ans3.addEventListener("click", increaseScore);
@@ -365,7 +370,7 @@ function scoreList() {
 
 function highscores() {
     quizTitle.textContent = "Highscores";
-    result.textContent = score + "% - " + finalUser[0];
+    result.textContent = score + "% - " + localStorage.getItem("User");
 
     var orderList = document.createElement("ol");
     var listItem = document.createElement("li");
@@ -378,10 +383,10 @@ function highscores() {
 
     quizTitle.appendChild(orderList);
 
-    for (i = 0; i < finalUser.length; i++) {
-        listItem.textContent = score + " - " + finalUser[i];
-        orderList.appendChild(listItem);
-    }
+    // for (i = 0; i < finalUser.length; i++) {
+    //     listItem.textContent = score + " - " + finalUser[i];
+    //     orderList.appendChild(listItem);
+    // }
 
     startButton.textContent = "Play Again?";
 

@@ -11,4 +11,6 @@ I WANT to take a timed quiz on JavaScript fundamentals that stores high scores
 SO THAT I can gauge my progress compared to my peers
 ```
 
-I am going to be adding a way to add the highscores in order from greatest to least and be better about repeating
+I am going to be adding a way to add the highscores in order from greatest to least and be better about repeating the quiz's.
+
+[link to site](https://priddle88.github.io/Quiz/)
