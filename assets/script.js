@@ -20,7 +20,10 @@ var timeLeft = 120;
 var score = 0;
 var page = 0;
 var users = [];
+var scores = [];
 var resets = 0;
+var finalUser = [];
+var finalScore= [];
 
 ans1.classList.add("btn");
 ans2.classList.add("btn");
@@ -42,6 +45,7 @@ function startTime() {
         if (timeLeft === 0) {
             clearInterval(countdown);
             time.textContent = "";
+            highscores();
         }
 
     }, 1000)
@@ -56,14 +60,15 @@ function mainPage(){
     someText.textContent = "Get ready for the most intense quiz ever";
     startButton.textContent = "Start Quiz";
 
-
+    // pageContent.appendChild(userId);
     pageContent.appendChild(quizTitle);
     quizTitle.appendChild(someText);
     pageContent.appendChild(startButton);
+
     if (resets == 0) {
         userId.remove();
     }
-    subScore.remove();
+    subScore.style.display = "none";
 
 }
 
@@ -78,12 +83,23 @@ function nextPage() {
     ans2.textContent = "Number";
     ans3.textContent = "Boolean";
 
+    
+
     startButton.remove();
 
     pageContent.appendChild(someText);
+    options.style.display = "block";
     options.appendChild(ans1);
     options.appendChild(ans2);
     options.appendChild(ans3);
+
+    if (resets >= 1) {
+    someText.appendChild(ans1);
+    someText.appendChild(ans2);
+    someText.appendChild(ans3);
+    options.style.display = "none";
+        
+    }
 
     ans1.addEventListener("click", decreaseTime);
     ans2.addEventListener("click", decreaseTime);
@@ -150,6 +166,13 @@ function thirdPage() {
     options.appendChild(ans3);
     options.appendChild(ans4);
 
+    if (resets >= 1) {
+        someText.appendChild(ans1);
+        someText.appendChild(ans2);
+        someText.appendChild(ans3);
+        someText.appendChild(ans4);
+        }
+
     ans1.removeEventListener("click", decreaseTime);
     ans2.removeEventListener("click", decreaseTime);
     ans3.removeEventListener("click", increaseScore);
@@ -172,6 +195,13 @@ function fourthPage() {
     ans2.textContent = "Chicken";
     ans3.textContent = "Turtle";
     ans4.textContent = "Cheetah";
+
+    if (resets >= 1) {
+        someText.appendChild(ans1);
+        someText.appendChild(ans2);
+        someText.appendChild(ans3);
+        someText.appendChild(ans4);
+        }
 
     ans1.removeEventListener("click", decreaseTime);
     ans2.removeEventListener("click", increaseScore);
@@ -197,6 +227,14 @@ function fifthPage() {
     ans3.textContent = "<section>";
     ans4.textContent = "<boing>";
 
+    if (resets >= 1) {
+        pageContent.appendChild(someText);
+        pageContent.appendChild(ans1);
+        pageContent.appendChild(ans2);
+        pageContent.appendChild(ans3);
+        pageContent.appendChild(ans4);
+        }
+
     ans1.removeEventListener("click", increaseScore);
     ans2.removeEventListener("click", decreaseTime);
     ans3.removeEventListener("click", decreaseTime);
@@ -221,6 +259,13 @@ function sixthPage() {
     ans3.textContent = "no";
     ans4.textContent = "yes";
 
+    if (resets >= 1) {
+        someText.appendChild(ans1);
+        someText.appendChild(ans2);
+        someText.appendChild(ans3);
+        someText.appendChild(ans4);
+        }
+
     ans1.removeEventListener("click", decreaseTime);
     ans2.removeEventListener("click", decreaseTime);
     ans3.removeEventListener("click", increaseScore);
@@ -241,10 +286,30 @@ function allDone() {
 
     someText.textContent = "All Done!";
 
+    options.style.display = "block";
+
     result.textContent = `You scored ${score}/100`;
-    options.appendChild(result);
-    options.appendChild(userId);
-    options.appendChild(subScore);
+
+    subScore.style.display = "inline";
+    if (resets == 0) {
+        options.appendChild(result);
+        options.appendChild(userId);
+        options.appendChild(subScore);
+    }
+
+    if (resets >= 1) {
+        
+        result.style.display = "block";
+        // options.appendChild(result);
+        // options.appendChild(userId);
+        // options.appendChild(subScore);
+
+        someText.appendChild(options);
+        options.appendChild(result);
+        result.appendChild(userId);
+        userId.style.display = "block";
+        userId.appendChild(subScore);
+        }
 
     ans1.remove();
     ans2.remove();
@@ -259,10 +324,10 @@ function allDone() {
     
         if (userId === "") {
             submitMess.textContent = "User cannot be blank";
-            options.appendChild(submitMess);
+            someText.appendChild(submitMess);
         } else {
             submitMess.textContent = "Registered successfully";
-            options.appendChild(submitMess);
+            someText.appendChild(submitMess);
         }
         
         store(userId);
@@ -278,16 +343,45 @@ function allDone() {
 function store(itemId) {
     users.push(itemId);
     localStorage.setItem("User1", JSON.stringify(users));
+    finalUser = JSON.parse(localStorage.getItem("User1"));
+    
+}
+
+function scoreStore(itemId) {
+    scores.push(itemId);
+    localStorage.setItem("Score", JSON.stringify(scores));
+    finalScore = JSON.parse(localStorage.getItem("Score"))
+}
+
+function scoreList() {
+    var orderList = document.createElement("ol");
+    pageContent.appendChild(orderList);
+
+    for (i = 0; i < finalUser.length; i++) {
+        orderList.appendChild(document.createElement("li").textContent = finalUser[i]);
+    }
 }
 
 
 function highscores() {
     quizTitle.textContent = "Highscores";
-    result.textContent = score + "/100 - " + localStorage.getItem("User");
+    result.textContent = score + "% - " + finalUser[0];
+
+    var orderList = document.createElement("ol");
+    var listItem = document.createElement("li");
+    
 
     pageContent.appendChild(quizTitle);
     pageContent.appendChild(result);
     pageContent.appendChild(startButton);
+    // scoreList();
+
+    quizTitle.appendChild(orderList);
+
+    for (i = 0; i < finalUser.length; i++) {
+        listItem.textContent = score + " - " + finalUser[i];
+        orderList.appendChild(listItem);
+    }
 
     startButton.textContent = "Play Again?";
 
@@ -295,7 +389,7 @@ function highscores() {
     startButton.addEventListener('click', reset);
 
     someText.remove();
-    options.remove();
+    options.style.display = "none";
     // console.log(localStorage.getItem("User"));
 
 }
@@ -305,9 +399,12 @@ function reset() {
     page = 0;
     resets += 1;
     timeLeft = 120;
-    result.remove();
+    result.style.display = "none";
+    submitMess.remove();
+
     mainPage();
 }
+
 
 
 mainPage();
