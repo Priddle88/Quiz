@@ -16,7 +16,7 @@ var ans4 = document.createElement("button");
 var result = document.createElement("p");
 var submitMess = document.createElement("h5");
 
-var timeLeft = 120;
+var timeLeft = 60;
 var score = 0;
 var page = 0;
 var users = [];
@@ -46,9 +46,13 @@ function startTime() {
             clearInterval(countdown);
             time.textContent = "";
             highscores();
+        } else if (timeLeft <= 0) {
+            clearInterval(countdown);
+            time.textContent = "";
+            timeLeft = 0;
         }
 
-    }, 1000)
+    }, 1000);
 }
 
 function mainPage(){
@@ -372,8 +376,8 @@ function highscores() {
     quizTitle.textContent = "Highscores";
     result.textContent = score + "% - " + localStorage.getItem("User");
 
-    var orderList = document.createElement("ol");
-    var listItem = document.createElement("li");
+    // var orderList = document.createElement("ol");
+    // var listItem = document.createElement("li");
     
 
     pageContent.appendChild(quizTitle);
@@ -387,6 +391,7 @@ function highscores() {
     //     listItem.textContent = score + " - " + finalUser[i];
     //     orderList.appendChild(listItem);
     // }
+
 
     startButton.textContent = "Play Again?";
 
@@ -403,7 +408,7 @@ function reset() {
     score = 0;
     page = 0;
     resets += 1;
-    timeLeft = 120;
+    timeLeft = 60;
     result.style.display = "none";
     submitMess.remove();
 
