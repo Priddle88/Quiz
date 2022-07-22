@@ -30,3 +30,13 @@ button {
     background-color: blueviolet;
     color: white;
 }
+
+li {
+    all: unset;
+    padding: 10px 0;
+    width: 100%;
+}
+
+ul {
+    display: grid;
+}

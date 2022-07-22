@@ -34,6 +34,7 @@ ans4.classList.add("btn");
 heading.setAttribute("style", "display: flex; justify-content: space-between;");
 pageContent.setAttribute("style", "text-align: center;")
 scoresBtn.addEventListener('click', highscores);
+pageContent.classList.add("pageC");
 
 function startTime() {
 
@@ -45,7 +46,7 @@ function startTime() {
         if (timeLeft === 0) {
             clearInterval(countdown);
             time.textContent = "";
-            highscores();
+            allDone();
         } else if (timeLeft <= 0) {
             clearInterval(countdown);
             time.textContent = "";
@@ -269,10 +270,12 @@ function sixthPage() {
     ans4.textContent = "yes";
 
     if (resets >= 1) {
-        someText.appendChild(ans1);
-        someText.appendChild(ans2);
-        someText.appendChild(ans3);
-        someText.appendChild(ans4);
+        var newDiv = document.createElement("div");
+        someText.appendChild(newDiv);
+        newDiv.appendChild(ans1);
+        newDiv.appendChild(ans2);
+        newDiv.appendChild(ans3);
+        newDiv.appendChild(ans4);
         }
 
     ans1.removeEventListener("click", decreaseTime);
@@ -340,6 +343,7 @@ function allDone() {
         }
         
         store(userId);
+        scoreStore(score);
         localStorage.setItem("User", userId);
       
         highscores();
@@ -374,23 +378,31 @@ function scoreList() {
 
 function highscores() {
     quizTitle.textContent = "Highscores";
-    result.textContent = score + "% - " + localStorage.getItem("User");
+    // result.textContent = score + "% - " + localStorage.getItem("User");
 
-    // var orderList = document.createElement("ol");
-    // var listItem = document.createElement("li");
+    var orderList = document.createElement("ul");
+    var listItem = document.createElement("li");
     
 
     pageContent.appendChild(quizTitle);
-    pageContent.appendChild(result);
+    // pageContent.appendChild(result);
     pageContent.appendChild(startButton);
     // scoreList();
 
-    // quizTitle.appendChild(orderList);
+    quizTitle.appendChild(orderList);
 
-    // for (i = 0; i < finalUser.length; i++) {
-    //     listItem.textContent = score + " - " + finalUser[i];
-    //     orderList.appendChild(listItem);
-    // }
+    for (i = 0; i < finalUser.length; i++) {
+        var itemNumber = i + 1;
+        // listItem.textContent = itemNumber + ".  " + finalScore[i] + " - " + finalUser[i];
+        // orderList.appendChild(listItem);
+        orderList.appendChild(document.createElement("li"));
+
+        if (page > 0) {
+            orderList.children[0].appendChild(document.createElement("li"));
+        }
+
+        orderList.children[i].textContent = itemNumber + ".  " + finalScore[i] + " - " + finalUser[i];
+    }
 
 
     startButton.textContent = "Play Again?";
